@@ -41,17 +41,17 @@ if st.button("🎥 Get Movie Recommendations") and mood:
         prompt = f"Recommend 3 movies that match the mood '{mood}'. For each movie, include the title in **bold** and a one-sentence description."
 
         try:
-            client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+                max_tokens=500
+            )
+            ai_reply = response.choices[0].message.content.strip()
 
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}],
-    temperature=0.7,
-    max_tokens=500
-)
-
-ai_reply = response.choices[0].message.content.strip()
-
+        except Exception as e:
+        st.error(f"Something went wrong: {e}")
+        ai_reply = ""
             # Step 2: Extract movie titles from the response
             import re
             movie_titles = re.findall(r"\*\*(.*?)\*\*", ai_reply)
