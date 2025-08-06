@@ -23,13 +23,13 @@ import os
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
-"""Streamlit Header"""
 
+#Header
 st.set_page_config(page_title="🎬 Mood-Based Movie Recommender", layout="wide")
 st.title("🎬 Mood-Based Movie Recommender")
 st.markdown("Tell us your mood, and get 3 movie suggestions — with posters!")
 
-"""User Inputs"""
+
 
 # User mood input
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
@@ -41,16 +41,16 @@ if st.button("🎥 Get Movie Recommendations") and mood:
         prompt = f"Recommend 3 movies that match the mood '{mood}'. For each movie, include the title in **bold** and a one-sentence description."
 
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=0.7,
-                max_tokens=500
-            )
-            ai_reply = response.choices[0].message.content.strip()
+            client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-            st.markdown("### 🤖 AI Suggestions")
-            st.markdown(ai_reply)
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": prompt}],
+    temperature=0.7,
+    max_tokens=500
+)
+
+ai_reply = response.choices[0].message.content.strip()
 
             # Step 2: Extract movie titles from the response
             import re
