@@ -9,7 +9,6 @@ Original file is located at
 Install Libraries
 """
 
-pip install streamlit openai requests python-dotenv
 
 """Import Libraries"""
 
