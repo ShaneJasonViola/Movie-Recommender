@@ -14,12 +14,8 @@ TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
 
 
-
-
-
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# 🎨 CSS: popcorn background + compact white boxes for text
 st.markdown("""
     <style>
         /* Popcorn background for entire app */
@@ -30,46 +26,48 @@ st.markdown("""
             background-attachment: fixed;
         }
 
-        /* Make all text black, bold, slightly larger */
+        /* Make most text black, bold, slightly larger */
         html, body, [class*="st-"], p, span, div {
             color: black !important;
             font-weight: bold !important;
             font-size: 1.05rem !important;
         }
 
-        /* Compact white box style */
-        .page-title, .description-text, .movie-card {
-            background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white */
-            padding: 6px 12px; /* smaller padding */
-            border-radius: 5px;
-            display: inline-block; /* shrink box to fit text */
-            max-width: 90%; /* prevent huge stretch */
-        }
-
-        /* Center the title and description */
+        /* Compact white box style for title/description */
         .page-title, .description-text {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 6px 12px;
+            border-radius: 5px;
             display: block;
             margin: 0 auto 15px auto;
             text-align: center;
-            width: fit-content; /* box fits text width */
+            width: fit-content;
         }
-
-        /* Title font size */
         .page-title {
             font-size: 1.8rem !important;
+        }
+
+        /* Mood input box styling */
+        input {
+            border: 2px solid white !important;
+            padding: 8px !important;
+            border-radius: 5px !important;
+        }
+
+        /* Button styling */
+        .stButton>button {
+            border: 2px solid white !important;
+            padding: 8px 16px !important;
+            border-radius: 5px !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Page title in compact white box
+# Page title
 st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
 
-# Description in compact white box
+# Description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
-
-
-
-
 
 
 
