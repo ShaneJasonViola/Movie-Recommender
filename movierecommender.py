@@ -17,9 +17,10 @@ st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 st.title("Mood-Based Movie Recommender")
 st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
 
+
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-#  Custom CSS: background + all text black with white outline
+# Custom CSS: background + bold text in white rectangular boxes
 st.markdown("""
     <style>
         /* Background image */
@@ -30,34 +31,26 @@ st.markdown("""
             background-attachment: fixed;
         }
 
-        /* Force all text black with white outline */
+        /* Force all text bold inside a white box */
         html, body, [class*="st-"], p, span, div {
-            color: black !important;
-            text-shadow:
-                -1px -1px 0 white,
-                 1px -1px 0 white,
-                -1px  1px 0 white,
-                 1px  1px 0 white;
+            font-weight: bold !important;
+            background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white */
+            padding: 4px 8px;
+            border-radius: 4px;
         }
 
         /* Movie theater marquee style */
         .movie-header {
             font-family: 'Arial Black', Gadget, sans-serif;
             color: black !important;
-            background-color: gold;
-            border: 5px solid gold;
+            background-color: white !important;
+            border: 3px solid black;
             padding: 20px;
             text-align: center;
             font-size: 2rem;
             letter-spacing: 2px;
-            box-shadow: 0 0 20px gold;
-            border-radius: 10px;
+            border-radius: 4px;
             margin-bottom: 20px;
-            text-shadow:
-                -1px -1px 0 white,
-                 1px -1px 0 white,
-                -1px  1px 0 white,
-                 1px  1px 0 white;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -67,6 +60,7 @@ st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', 
 
 # App description
 st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
+
 
 
 
