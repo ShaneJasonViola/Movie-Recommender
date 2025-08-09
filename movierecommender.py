@@ -16,9 +16,10 @@ TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
 
 
+
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# 🎨 CSS: popcorn background + white boxes for all text
+# 🎨 CSS: popcorn background + compact white boxes for text
 st.markdown("""
     <style>
         /* Popcorn background for entire app */
@@ -36,31 +37,36 @@ st.markdown("""
             font-size: 1.05rem !important;
         }
 
-        /* Apply white background box to all text containers */
-        p, span, div, h1, h2, h3, h4, h5, h6 {
-            background-color: white !important;
-            padding: 6px 10px;
+        /* Compact white box style */
+        .page-title, .description-text, .movie-card {
+            background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white */
+            padding: 6px 12px; /* smaller padding */
             border-radius: 5px;
+            display: inline-block; /* shrink box to fit text */
+            max-width: 90%; /* prevent huge stretch */
         }
 
-        /* Special styling for the main page title */
-        .page-title {
-            font-size: 2rem !important;
+        /* Center the title and description */
+        .page-title, .description-text {
+            display: block;
+            margin: 0 auto 15px auto;
             text-align: center;
-            margin-bottom: 20px;
-            background-color: white !important;
-            padding: 15px 20px;
-            border-radius: 8px;
-            display: inline-block;
+            width: fit-content; /* box fits text width */
+        }
+
+        /* Title font size */
+        .page-title {
+            font-size: 1.8rem !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Page title in white box
+# Page title in compact white box
 st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
 
-# App description
-st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
+# Description in compact white box
+st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+
 
 
 
