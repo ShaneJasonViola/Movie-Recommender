@@ -12,10 +12,6 @@ import re
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
-# --- Streamlit UI ---
-st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
-st.title("Mood-Based Movie Recommender")
-st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
 
 
 
