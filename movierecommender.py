@@ -12,56 +12,54 @@ import re
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
+
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
-
-#Header "Mood-Based Movie Recommender"
-
-HEADER_URL = "https://wallpapercave.com/wp/wp1896112.jpg"  # <-- replace with your marquee image URL
-
 
 st.markdown("""
     <style>
+        /* Popcorn background for entire app */
         .stApp {
             background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
+
+        /* Make most text black, bold, slightly larger */
         html, body, [class*="st-"], p, span, div {
             color: black !important;
             font-weight: bold !important;
             font-size: 1.05rem !important;
         }
-        /* match white box style for inputs/buttons etc. */
-        .description-text, input, .stButton>button, .stLinkButton>button, .stLinkButton>a {
+
+        /* White background style for title, input, and button */
+        .page-title, .description-text, input, .stButton>button {
             background-color: white !important;
             color: black !important;
-            padding: 6px 12px !important;
-            border-radius: 5px !important;
+            padding: 6px 12px;
+            border-radius: 5px;
             border: none !important;
         }
-        /* header image wrapper */
-        .header-img {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0 15px 0;
-        }
-        .header-img img {
-            max-width: 900px;   /* adjust if you want it bigger/smaller */
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            background: white;  /* gives a clean edge against popcorn bg */
-            padding: 6px;
+
+        /* Center the title */
+        .page-title {
+            font-size: 1.8rem !important;
+            text-align: center;
+            margin-bottom: 20px;
+            width: fit-content;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# --- Header image (replaces the old title) ---
-st.markdown(f'<div class="header-img"><img src="{HEADER_URL}"/></div>', unsafe_allow_html=True)
+# Page title
+st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
 
-# Keep your description
+# Description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+
 
 
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
