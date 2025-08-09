@@ -66,7 +66,7 @@ st.markdown("""
         /* On hover: remove background so popcorn shows through */
         .stLinkButton button:hover {
             background-color: transparent !important;
-            color: black !important;
+            color: white !important;
         }
     </style>
 """, unsafe_allow_html=True)
