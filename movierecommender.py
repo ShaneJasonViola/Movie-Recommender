@@ -17,6 +17,49 @@ st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 st.title("Mood-Based Movie Recommender")
 st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
 
+st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
+
+# 🎨 Custom CSS for popcorn background + marquee header
+st.markdown("""
+    <style>
+        /* Background image */
+        .stApp {
+            background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Transparent overlay to make text easier to read */
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Movie theater marquee style */
+        .movie-header {
+            font-family: 'Arial Black', Gadget, sans-serif;
+            color: gold;
+            background-color: black;
+            border: 5px solid gold;
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px gold;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Replace your st.title() with this marquee header
+st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
+
+st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
+
+
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
 
 # ---------- Helpers ----------
