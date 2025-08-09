@@ -22,14 +22,14 @@ st.markdown("""
             background-attachment: fixed;
         }
 
-        /* Make most text black, bold, slightly larger */
+        /* Global text style */
         html, body, [class*="st-"], p, span, div {
             color: black !important;
             font-weight: bold !important;
             font-size: 1.05rem !important;
         }
 
-        /* White background style for title, input, and button */
+        /* White background style for title, input, and primary button */
         .page-title, .description-text, input, .stButton>button {
             background-color: white !important;
             color: black !important;
@@ -49,25 +49,7 @@ st.markdown("""
             margin-right: auto;
         }
 
-        /* Force Watch Trailer buttons to stay white */
-        a[data-testid="stLinkButton"] {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 2px solid #ffffff !important;
-            border-radius: 6px !important;
-            padding: 6px 12px !important;
-            text-decoration: none !important;
-            font-weight: bold !important;
-            display: inline-block;
-            text-align: center;
-        }
-        a[data-testid="stLinkButton"]:hover {
-            background-color: #f5f5f5 !important;
-            color: #000000 !important;
-            border: 2px solid #f5f5f5 !important;
-        }
-
-        /* White box for movie description */
+        /* "Why" white box */
         .movie-why {
             background-color: white !important;
             color: black !important;
@@ -76,14 +58,32 @@ st.markdown("""
             margin-top: 8px;
             font-weight: bold !important;
             text-align: center;
+            display: inline-block;
+        }
+
+        /* Our custom WATCH TRAILER button (always white) */
+        .trailer-btn {
+            display: inline-block;
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 6px !important;
+            padding: 8px 14px !important;
+            text-decoration: none !important;
+            font-weight: bold !important;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .trailer-btn:hover {
+            background-color: #f5f5f5 !important;
+            color: #000000 !important;
+            border-color: #f5f5f5 !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Page title
+# Page title & description
 st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
-
-# Description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
 
 # Mood input
@@ -135,16 +135,18 @@ def tmdb_movie_trailer_url(movie_id: int):
             if v.get("type") == "Trailer": s += 2
             if v.get("official"): s += 1
             return s
-        best = sorted(vids, key=score, reverse=True)[0]
-        if best.get("site") == "YouTube" and best.get("key"):
-            return f"https://www.youtube.com/watch?v={best['key']}"
+        vids_sorted = sorted(vids, key=score, reverse=True)
+        for v in vids_sorted:
+            if v.get("site") == "YouTube" and v.get("key"):
+                return f"https://www.youtube.com/watch?v={v['key']}"
         return None
     except Exception:
         return None
 
 def openai_movies_json(mood_text: str):
+    # Ask for 6 so we can filter down to 3 that have both poster & trailer
     prompt = (
-        f"Recommend exactly 3 movies that match the mood '{mood_text}'. "
+        f"Recommend exactly 6 movies that match the mood '{mood_text}'. "
         "Prefer the last 25 years unless the mood strongly suggests a classic. "
         "Avoid spoilers.\n\n"
         "Return ONLY valid JSON in this exact structure:\n"
@@ -152,7 +154,10 @@ def openai_movies_json(mood_text: str):
         '  "movies": [\n'
         '    {"title": "Movie 1", "why": "One-sentence reason"},\n'
         '    {"title": "Movie 2", "why": "One-sentence reason"},\n'
-        '    {"title": "Movie 3", "why": "One-sentence reason"}\n'
+        '    {"title": "Movie 3", "why": "One-sentence reason"},\n'
+        '    {"title": "Movie 4", "why": "One-sentence reason"},\n'
+        '    {"title": "Movie 5", "why": "One-sentence reason"},\n'
+        '    {"title": "Movie 6", "why": "One-sentence reason"}\n'
         "  ]\n"
         "}\n"
         "Do not include any extra commentary or text outside the JSON."
@@ -161,53 +166,72 @@ def openai_movies_json(mood_text: str):
         model="gpt-4.1-mini",
         input=prompt,
         temperature=0.7,
-        max_output_tokens=500,
+        max_output_tokens=600,
     )
     raw = getattr(resp, "output_text", None)
     if not raw:
-        raw = "".join(
-            [chunk.get("content", "") if isinstance(chunk, dict) else str(chunk)
-             for chunk in getattr(resp, "output", [])]
-        )
+        raw = "".join([chunk.get("content", "") if isinstance(chunk, dict) else str(chunk)
+                       for chunk in getattr(resp, "output", [])])
     data = safe_json_extract(raw)
-    if "movies" not in data or not isinstance(data["movies"], list) or len(data["movies"]) < 3:
+    if "movies" not in data or not isinstance(data["movies"], list) or len(data["movies"]) < 1:
         raise ValueError("Model did not return the expected 'movies' array.")
-    return data["movies"][:3]
+    return data["movies"]
 
 # ---------- Main ----------
 if st.button("Get Movie Recommendations") and mood:
     with st.spinner("Generating your recommendations..."):
         try:
-            movies = openai_movies_json(mood)
+            candidates = openai_movies_json(mood)  # 6 candidates
             st.markdown("### Your picks")
             cols = st.columns(3)
-            for i, m in enumerate(movies):
-                title = m.get("title", "").strip()
-                why = m.get("why", "").strip() or "Good fit for your mood."
-                tmdb_movie = tmdb_search_movie(title) if title else None
-                poster_url, year, trailer_url = None, "", None
-                if tmdb_movie:
-                    poster_path = tmdb_movie.get("poster_path")
-                    if poster_path:
-                        poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
-                    year = (tmdb_movie.get("release_date") or "")[:4]
-                    movie_id = tmdb_movie.get("id")
-                    if movie_id:
-                        trailer_url = tmdb_movie_trailer_url(movie_id)
-                with cols[i]:
+
+            shown = 0
+            for m in candidates:
+                if shown >= 3:
+                    break
+
+                title = (m.get("title") or "").strip()
+                why = (m.get("why") or "").strip() or "Good fit for your mood."
+                if not title:
+                    continue
+
+                tmdb_movie = tmdb_search_movie(title)
+                if not tmdb_movie:
+                    continue
+
+                poster_path = tmdb_movie.get("poster_path")
+                if not poster_path:
+                    continue  # require poster
+
+                movie_id = tmdb_movie.get("id")
+                trailer_url = tmdb_movie_trailer_url(movie_id) if movie_id else None
+                if not trailer_url:
+                    continue  # require trailer
+
+                poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
+                year = (tmdb_movie.get("release_date") or "")[:4]
+
+                with cols[shown]:
                     if poster_url:
                         st.image(poster_url, width=260)
-                    st.markdown(f"**{title or 'Unknown Title'}** {f'({year})' if year else ''}")
+                    st.markdown(f"**{title}** {f'({year})' if year else ''}")
                     st.markdown(f'<div class="movie-why">{why}</div>', unsafe_allow_html=True)
-                    if trailer_url:
-                        st.link_button("Watch Trailer", trailer_url, use_container_width=True)
-                    else:
-                        st.write("No trailer found.")
+                    # Our custom always-white trailer button:
+                    st.markdown(f'<a class="trailer-btn" href="{trailer_url}" target="_blank">Watch Trailer</a>', unsafe_allow_html=True)
+
+                shown += 1
+
+            if shown == 0:
+                st.warning("No matches with both a trailer and a poster. Try a different mood.")
+            elif shown < 3:
+                st.info(f"Found {shown} with both trailer and poster. Try again for more options.")
+
         except json.JSONDecodeError as e:
             st.error("The AI response wasn’t valid JSON. Try again.")
             st.code(str(e))
         except Exception as e:
             st.error(f"Something went wrong: {e}")
             st.exception(e)
+
 
 
