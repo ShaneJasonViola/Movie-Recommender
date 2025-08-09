@@ -18,9 +18,10 @@ st.title("Mood-Based Movie Recommender")
 st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
 
 
+
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# Custom CSS: background + bold text in white rectangular boxes
+# Custom CSS: background + black bold text with white background
 st.markdown("""
     <style>
         /* Background image */
@@ -31,25 +32,26 @@ st.markdown("""
             background-attachment: fixed;
         }
 
-        /* Force all text bold inside a white box */
+        /* Global text style */
         html, body, [class*="st-"], p, span, div {
+            color: black !important;
             font-weight: bold !important;
-            background-color: rgba(255, 255, 255, 0.85); /* semi-transparent white */
-            padding: 4px 8px;
-            border-radius: 4px;
+            font-size: 1.05rem !important;
+            background-color: white;
         }
 
         /* Movie theater marquee style */
         .movie-header {
             font-family: 'Arial Black', Gadget, sans-serif;
             color: black !important;
-            background-color: white !important;
-            border: 3px solid black;
+            background-color: gold;
+            border: 5px solid gold;
             padding: 20px;
             text-align: center;
-            font-size: 2rem;
+            font-size: 2rem !important;
             letter-spacing: 2px;
-            border-radius: 4px;
+            box-shadow: 0 0 20px gold;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
     </style>
@@ -60,6 +62,7 @@ st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', 
 
 # App description
 st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
+
 
 
 
