@@ -19,7 +19,7 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-#  Custom CSS for movie theater background + marquee header
+# 🎨 Custom CSS for movie theater background + marquee header
 st.markdown("""
     <style>
         /* Background image */
@@ -40,8 +40,8 @@ st.markdown("""
         /* Movie theater marquee style */
         .movie-header {
             font-family: 'Arial Black', Gadget, sans-serif;
-            color: gold;
-            background-color: black;
+            color: black; /* Changed from gold to black */
+            background-color: gold;
             border: 5px solid gold;
             padding: 20px;
             text-align: center;
@@ -57,8 +57,6 @@ st.markdown("""
 # Movie theater marquee header
 st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
 
-
-st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
 
 
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
