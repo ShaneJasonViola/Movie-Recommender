@@ -16,7 +16,8 @@ st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
 #Header "Mood-Based Movie Recommender"
 
-HEADER_URL = "header_marquee.png"
+HEADER_URL = "https://wallpapercave.com/wp/wp1896112.jpg"  # <-- replace with your marquee image URL
+
 
 st.markdown("""
     <style>
