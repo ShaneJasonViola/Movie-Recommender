@@ -49,7 +49,7 @@ st.markdown("""
             margin-right: auto;
         }
 
-        /* Watch Trailer button styling */
+        /* Force Watch Trailer buttons to stay white */
         a[data-testid="stLinkButton"] {
             background-color: #ffffff !important;
             color: #000000 !important;
@@ -62,8 +62,9 @@ st.markdown("""
             text-align: center;
         }
         a[data-testid="stLinkButton"]:hover {
-            background-color: #ffffff !important;
+            background-color: #f5f5f5 !important;
             color: #000000 !important;
+            border: 2px solid #f5f5f5 !important;
         }
 
         /* White box for movie description */
@@ -208,4 +209,5 @@ if st.button("Get Movie Recommendations") and mood:
         except Exception as e:
             st.error(f"Something went wrong: {e}")
             st.exception(e)
+
 
