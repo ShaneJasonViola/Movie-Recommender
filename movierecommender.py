@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 from openai import OpenAI
 import requests
@@ -6,12 +5,8 @@ import json
 import re
 
 # --- Secrets / API keys ---
-# Put these in .streamlit/secrets.toml (or Streamlit Cloud → Settings → Secrets):
-# OPENAI_API_KEY="sk-..."
-# TMDB_API_KEY="..."
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
-
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
@@ -52,25 +47,34 @@ st.markdown("""
             margin-right: auto;
         }
 
-        /* Watch Trailer button styling */
-        .stLinkButton button {
-            background-color: white !important;
-            color: black !important;
-            font-weight: bold !important;
-            border-radius: 5px !important;
-            border: none !important;
+        /* --- Force "Watch Trailer" to white background with black text --- */
+        .stLinkButton a,
+        .stLinkButton button,
+        .stLinkButton > div > a,
+        a[data-testid="baseLinkButton"],
+        a[data-testid="stLinkButton"] {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 6px !important;
             padding: 6px 12px !important;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            text-decoration: none !important;
+            box-shadow: none !important;
+            font-weight: bold !important;
         }
 
-        /* On hover: remove background so popcorn shows through */
-        .stLinkButton button:hover {
-            background-color: transparent !important;
-            color: white !important;
+        /* Keep it readable on hover too (still white) */
+        .stLinkButton a:hover,
+        .stLinkButton button:hover,
+        .stLinkButton > div > a:hover,
+        a[data-testid="baseLinkButton"]:hover,
+        a[data-testid="stLinkButton"]:hover {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border-color: #ffffff !important;
         }
     </style>
 """, unsafe_allow_html=True)
-
 
 # Page title
 st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
@@ -78,37 +82,24 @@ st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe
 # Description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
 
-
-
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
 
 # ---------- Helpers ----------
 def safe_json_extract(text: str):
-    """Extract and parse JSON from a model response that should be JSON."""
     if not text:
         raise ValueError("Empty response from model.")
-
-    # Look for JSON fenced code block
     fence = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, flags=re.DOTALL | re.IGNORECASE)
     if fence:
         text = fence.group(1).strip()
-
-    # If there's extra text, slice from first '{' to last '}'
     if not text.strip().startswith("{"):
         start = text.find("{")
         end = text.rfind("}")
         if start != -1 and end != -1 and end > start:
             text = text[start : end + 1]
-
     return json.loads(text)
 
 def tmdb_search_movie(title: str):
-    params = {
-        "api_key": TMDB_API_KEY,
-        "query": title,
-        "include_adult": "false",
-        "language": "en-US"
-    }
+    params = {"api_key": TMDB_API_KEY, "query": title, "include_adult": "false", "language": "en-US"}
     try:
         r = requests.get("https://api.themoviedb.org/3/search/movie", params=params, timeout=20)
         r.raise_for_status()
@@ -156,20 +147,10 @@ def openai_movies_json(mood_text: str):
         "}\n"
         "Do not include any extra commentary or text outside the JSON."
     )
-
-    resp = client.responses.create(
-        model="gpt-4.1-mini",
-        input=prompt,
-        temperature=0.7,
-        max_output_tokens=500,
-    )
-
+    resp = client.responses.create(model="gpt-4.1-mini", input=prompt, temperature=0.7, max_output_tokens=500)
     raw = getattr(resp, "output_text", None)
     if not raw:
-        raw = "".join(
-            [chunk.get("content", "") if isinstance(chunk, dict) else str(chunk)
-             for chunk in getattr(resp, "output", [])]
-        )
+        raw = "".join([chunk.get("content", "") if isinstance(chunk, dict) else str(chunk) for chunk in getattr(resp, "output", [])])
     data = safe_json_extract(raw)
     if "movies" not in data or not isinstance(data["movies"], list) or len(data["movies"]) < 3:
         raise ValueError("Model did not return the expected 'movies' array.")
@@ -180,17 +161,13 @@ if st.button("Get Movie Recommendations") and mood:
     with st.spinner("Generating your recommendations..."):
         try:
             movies = openai_movies_json(mood)
-
             st.markdown("### Your picks")
             cols = st.columns(3)
-
             for i, m in enumerate(movies):
                 title = m.get("title", "").strip()
                 why = m.get("why", "").strip() or "Good fit for your mood."
-
                 tmdb_movie = tmdb_search_movie(title) if title else None
                 poster_url, year, trailer_url = None, "", None
-
                 if tmdb_movie:
                     poster_path = tmdb_movie.get("poster_path")
                     if poster_path:
@@ -199,25 +176,20 @@ if st.button("Get Movie Recommendations") and mood:
                     movie_id = tmdb_movie.get("id")
                     if movie_id:
                         trailer_url = tmdb_movie_trailer_url(movie_id)
-
                 with cols[i]:
                     if poster_url:
                         st.image(poster_url, width=260)
                     st.markdown(f"**{title or 'Unknown Title'}** {f'({year})' if year else ''}")
-
-                    # Bold, black "why" text in a readable white box
-                    st.markdown(f'<div class="movie-description">{why}</div>', unsafe_allow_html=True)
-
+                    st.caption(why)
                     if trailer_url:
-                        # Styled like your other white boxes (title/input/button)
                         st.link_button("Watch Trailer", trailer_url, use_container_width=True)
                     else:
                         st.write("No trailer found.")
-
         except json.JSONDecodeError as e:
             st.error("The AI response wasn’t valid JSON. Try again.")
             st.code(str(e))
         except Exception as e:
             st.error(f"Something went wrong: {e}")
             st.exception(e)
+
 
