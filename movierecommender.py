@@ -33,32 +33,24 @@ st.markdown("""
             font-size: 1.05rem !important;
         }
 
-        /* Compact white box style for title/description */
-        .page-title, .description-text {
-            background-color: rgba(255, 255, 255, 0.85);
+        /* White background style for title, input, and button */
+        .page-title, .description-text, input, .stButton>button {
+            background-color: white !important;
+            color: black !important;
             padding: 6px 12px;
             border-radius: 5px;
-            display: block;
-            margin: 0 auto 15px auto;
-            text-align: center;
-            width: fit-content;
+            border: none !important;
         }
+
+        /* Center the title */
         .page-title {
             font-size: 1.8rem !important;
-        }
-
-        /* Mood input box styling */
-        input {
-            border: 2px solid white !important;
-            padding: 8px !important;
-            border-radius: 5px !important;
-        }
-
-        /* Button styling */
-        .stButton>button {
-            border: 2px solid white !important;
-            padding: 8px 16px !important;
-            border-radius: 5px !important;
+            text-align: center;
+            margin-bottom: 20px;
+            width: fit-content;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -68,6 +60,7 @@ st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe
 
 # Description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+
 
 
 
