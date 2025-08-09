@@ -12,8 +12,6 @@ import re
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
-
-
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
 st.markdown("""
@@ -33,13 +31,33 @@ st.markdown("""
             font-size: 1.05rem !important;
         }
 
-        /* White background style for title, input, and button */
+        /* White background style for title, input, and primary button */
         .page-title, .description-text, input, .stButton>button {
             background-color: white !important;
             color: black !important;
             padding: 6px 12px;
             border-radius: 5px;
             border: none !important;
+        }
+
+        /* Also make the link_button ("Watch Trailer") match this style */
+        .stLinkButton>button, .stLinkButton>a {
+            background-color: white !important;
+            color: black !important;
+            padding: 6px 12px !important;
+            border-radius: 5px !important;
+            border: none !important;
+            text-decoration: none !important;
+            cursor: pointer;
+        }
+
+        /* Compact white box style for bold "why" text */
+        .movie-description {
+            background-color: white !important;
+            color: black !important;
+            padding: 6px 10px;
+            border-radius: 5px;
+            display: inline-block;
         }
 
         /* Center the title */
@@ -60,10 +78,6 @@ st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe
 
 # Description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
-
-
-
-
 
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
 
@@ -189,8 +203,12 @@ if st.button("Get Movie Recommendations") and mood:
                     if poster_url:
                         st.image(poster_url, width=260)
                     st.markdown(f"**{title or 'Unknown Title'}** {f'({year})' if year else ''}")
-                    st.caption(why)
+
+                    # Bold, black "why" text in a readable white box
+                    st.markdown(f'<div class="movie-description">{why}</div>', unsafe_allow_html=True)
+
                     if trailer_url:
+                        # Styled like your other white boxes (title/input/button)
                         st.link_button("Watch Trailer", trailer_url, use_container_width=True)
                     else:
                         st.write("No trailer found.")
