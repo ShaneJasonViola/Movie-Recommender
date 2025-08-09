@@ -21,23 +21,22 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# Custom CSS: background + black bold text with white background
+
+#  CSS: popcorn background only for the top section
 st.markdown("""
     <style>
-        /* Background image */
+        /* Remove default background from whole app */
         .stApp {
+            background-color: white;
+        }
+
+        /* Popcorn background for header section only */
+        .popcorn-header {
             background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
-        }
-
-        /* Global text style */
-        html, body, [class*="st-"], p, span, div {
-            color: black !important;
-            font-weight: bold !important;
-            font-size: 1.05rem !important;
-            background-color: white;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
         }
 
         /* Movie theater marquee style */
@@ -52,10 +51,29 @@ st.markdown("""
             letter-spacing: 2px;
             box-shadow: 0 0 20px gold;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Description text */
+        .description-text {
+            color: black !important;
+            font-weight: bold;
+            font-size: 1.05rem;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
         }
     </style>
 """, unsafe_allow_html=True)
+
+# ---------- Popcorn Header Section ----------
+st.markdown("""
+    <div class="popcorn-header">
+        <div class="movie-header">Mood-Based Movie Recommender App</div>
+        <div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>
+    </div>
+""", unsafe_allow_html=True)
+
 
 # Movie theater marquee header
 st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
