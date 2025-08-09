@@ -59,6 +59,7 @@ st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', 
 
 
 
+
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
 
 # ---------- Helpers ----------
