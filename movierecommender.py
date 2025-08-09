@@ -11,7 +11,7 @@ TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# 🎨 Custom CSS
+# Custom CSS
 st.markdown("""
     <style>
         /* Popcorn background for entire app */
