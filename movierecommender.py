@@ -21,10 +21,12 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# 🎨 CSS: popcorn background for the whole app
+st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
+
+# 🎨 CSS: popcorn background + white boxes for all text
 st.markdown("""
     <style>
-        /* Full-screen popcorn background */
+        /* Popcorn background for entire app */
         .stApp {
             background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
@@ -32,43 +34,39 @@ st.markdown("""
             background-attachment: fixed;
         }
 
-        /* Make all text black, bold, and easier to read */
+        /* Make all text black, bold, slightly larger */
         html, body, [class*="st-"], p, span, div {
             color: black !important;
             font-weight: bold !important;
             font-size: 1.05rem !important;
         }
 
-        /* Movie theater marquee style */
-        .movie-header {
-            font-family: 'Arial Black', Gadget, sans-serif;
-            color: black !important;
-            background-color: gold;
-            border: 5px solid gold;
-            padding: 20px;
-            text-align: center;
-            font-size: 2rem !important;
-            letter-spacing: 2px;
-            box-shadow: 0 0 20px gold;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        /* Apply white background box to all text containers */
+        p, span, div, h1, h2, h3, h4, h5, h6 {
+            background-color: white !important;
+            padding: 6px 10px;
+            border-radius: 5px;
         }
 
-        /* White background box for descriptions and text areas */
-        .description-text, .text-box {
-            background-color: rgba(255,255,255,0.85);
-            padding: 10px 15px;
-            border-radius: 5px;
+        /* Special styling for the main page title */
+        .page-title {
+            font-size: 2rem !important;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: white !important;
+            padding: 15px 20px;
+            border-radius: 8px;
             display: inline-block;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Header with marquee
-st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
+# Page title in white box
+st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
 
-# Description in a white box
-st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+# App description
+st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
+
 
 
 
