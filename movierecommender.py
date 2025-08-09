@@ -19,7 +19,6 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 
 
-st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
