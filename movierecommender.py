@@ -19,24 +19,24 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 
 
+
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-
-#  CSS: popcorn background only for the top section
+# 🎨 CSS: full-width popcorn top banner, white background for the rest
 st.markdown("""
     <style>
-        /* Remove default background from whole app */
+        /* Make entire app background white by default */
         .stApp {
             background-color: white;
         }
 
-        /* Popcorn background for header section only */
+        /* Full-width popcorn banner at the top */
         .popcorn-header {
             background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
             background-position: center;
-            padding: 30px;
-            border-radius: 0 0 10px 10px;
+            padding: 40px 0; /* Top and bottom padding */
+            width: 100%;
         }
 
         /* Movie theater marquee style */
@@ -51,7 +51,8 @@ st.markdown("""
             letter-spacing: 2px;
             box-shadow: 0 0 20px gold;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin: 0 auto 10px auto;
+            width: fit-content;
         }
 
         /* Description text */
@@ -60,8 +61,10 @@ st.markdown("""
             font-weight: bold;
             font-size: 1.05rem;
             background-color: white;
-            padding: 10px;
+            padding: 10px 15px;
             border-radius: 5px;
+            width: fit-content;
+            margin: 0 auto;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -73,6 +76,7 @@ st.markdown("""
         <div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>
     </div>
 """, unsafe_allow_html=True)
+
 
 
 # Movie theater marquee header
