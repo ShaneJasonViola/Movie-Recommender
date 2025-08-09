@@ -19,24 +19,24 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 
 
-
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# 🎨 CSS: full-width popcorn top banner, white background for the rest
+# 🎨 CSS: popcorn background for the whole app
 st.markdown("""
     <style>
-        /* Make entire app background white by default */
+        /* Full-screen popcorn background */
         .stApp {
-            background-color: white;
-        }
-
-        /* Full-width popcorn banner at the top */
-        .popcorn-header {
             background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
             background-position: center;
-            padding: 40px 0; /* Top and bottom padding */
-            width: 100%;
+            background-attachment: fixed;
+        }
+
+        /* Make all text black, bold, and easier to read */
+        html, body, [class*="st-"], p, span, div {
+            color: black !important;
+            font-weight: bold !important;
+            font-size: 1.05rem !important;
         }
 
         /* Movie theater marquee style */
@@ -51,46 +51,25 @@ st.markdown("""
             letter-spacing: 2px;
             box-shadow: 0 0 20px gold;
             border-radius: 10px;
-            margin: 0 auto 10px auto;
-            width: fit-content;
+            margin-bottom: 20px;
         }
 
-        /* Description text */
-        .description-text {
-            color: black !important;
-            font-weight: bold;
-            font-size: 1.05rem;
-            background-color: white;
+        /* White background box for descriptions and text areas */
+        .description-text, .text-box {
+            background-color: rgba(255,255,255,0.85);
             padding: 10px 15px;
             border-radius: 5px;
-            width: fit-content;
-            margin: 0 auto;
+            display: inline-block;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# ---------- Popcorn Header Section ----------
-st.markdown("""
-    <div class="popcorn-header">
-        <div class="movie-header">Mood-Based Movie Recommender App</div>
-        <div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>
-    </div>
-""", unsafe_allow_html=True)
-
-
-
-# Movie theater marquee header
+# Header with marquee
 st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
 
-# App description
-st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
-
-
-
-
-
-# App description styled in black
+# Description in a white box
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+
 
 
 
