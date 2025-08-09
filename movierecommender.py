@@ -14,70 +14,54 @@ TMDB_API_KEY = st.secrets["TMDB_API_KEY"]
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
+#Header "Mood-Based Movie Recommender"
+
+HEADER_URL = "header_marquee.png"
+
 st.markdown("""
     <style>
-        /* Popcorn background for entire app */
         .stApp {
             background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
-
-        /* Make most text black, bold, slightly larger */
         html, body, [class*="st-"], p, span, div {
             color: black !important;
             font-weight: bold !important;
             font-size: 1.05rem !important;
         }
-
-        /* White background style for title, input, and primary button */
-        .page-title, .description-text, input, .stButton>button {
-            background-color: white !important;
-            color: black !important;
-            padding: 6px 12px;
-            border-radius: 5px;
-            border: none !important;
-        }
-
-        /* Also make the link_button ("Watch Trailer") match this style */
-        .stLinkButton>button, .stLinkButton>a {
+        /* match white box style for inputs/buttons etc. */
+        .description-text, input, .stButton>button, .stLinkButton>button, .stLinkButton>a {
             background-color: white !important;
             color: black !important;
             padding: 6px 12px !important;
             border-radius: 5px !important;
             border: none !important;
-            text-decoration: none !important;
-            cursor: pointer;
         }
-
-        /* Compact white box style for bold "why" text */
-        .movie-description {
-            background-color: white !important;
-            color: black !important;
-            padding: 6px 10px;
-            border-radius: 5px;
-            display: inline-block;
+        /* header image wrapper */
+        .header-img {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 15px 0;
         }
-
-        /* Center the title */
-        .page-title {
-            font-size: 1.8rem !important;
-            text-align: center;
-            margin-bottom: 20px;
-            width: fit-content;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+        .header-img img {
+            max-width: 900px;   /* adjust if you want it bigger/smaller */
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background: white;  /* gives a clean edge against popcorn bg */
+            padding: 6px;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# Page title
-st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
+# --- Header image (replaces the old title) ---
+st.markdown(f'<div class="header-img"><img src="{HEADER_URL}"/></div>', unsafe_allow_html=True)
 
-# Description
+# Keep your description
 st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+
 
 mood = st.text_input("How are you feeling right now?", placeholder="e.g. adventurous, sad, romantic")
 
