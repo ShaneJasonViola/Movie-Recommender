@@ -19,18 +19,18 @@ st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to w
 
 st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
-# 🎨 Custom CSS for popcorn background + marquee header
+#  Custom CSS for movie theater background + marquee header
 st.markdown("""
     <style>
         /* Background image */
         .stApp {
-            background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc');
+            background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
         }
 
-        /* Transparent overlay to make text easier to read */
+        /* Transparent overlay to make text easier to read (optional) */
         .overlay {
             background-color: rgba(0, 0, 0, 0.5);
             padding: 1rem;
@@ -54,8 +54,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Replace your st.title() with this marquee header
+# Movie theater marquee header
 st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
+
 
 st.markdown("Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.")
 
