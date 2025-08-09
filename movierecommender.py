@@ -30,17 +30,17 @@ st.markdown("""
             background-attachment: fixed;
         }
 
-        /* Transparent overlay to make text easier to read (optional) */
-        .overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 1rem;
-            border-radius: 8px;
+        /* Description text style */
+        .description-text {
+            color: black;
+            font-size: 1.1rem;
+            font-weight: normal;
         }
 
         /* Movie theater marquee style */
         .movie-header {
             font-family: 'Arial Black', Gadget, sans-serif;
-            color: black; /* Changed from gold to black */
+            color: black; /* Header text is black */
             background-color: gold;
             border: 5px solid gold;
             padding: 20px;
@@ -56,6 +56,10 @@ st.markdown("""
 
 # Movie theater marquee header
 st.markdown('<div class="movie-header">Mood-Based Movie Recommender App</div>', unsafe_allow_html=True)
+
+# App description styled in black
+st.markdown('<div class="description-text">Tell us your mood and get 3 movie picks with posters, a reason to watch, and a trailer.</div>', unsafe_allow_html=True)
+
 
 
 
