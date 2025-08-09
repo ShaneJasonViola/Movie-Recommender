@@ -51,8 +51,26 @@ st.markdown("""
             margin-left: auto;
             margin-right: auto;
         }
+
+        /* Watch Trailer button styling */
+        .stLinkButton button {
+            background-color: white !important;
+            color: black !important;
+            font-weight: bold !important;
+            border-radius: 5px !important;
+            border: none !important;
+            padding: 6px 12px !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* On hover: remove background so popcorn shows through */
+        .stLinkButton button:hover {
+            background-color: transparent !important;
+            color: black !important;
+        }
     </style>
 """, unsafe_allow_html=True)
+
 
 # Page title
 st.markdown('<div class="page-title">Mood-Based Movie Recommender</div>', unsafe_allow_html=True)
