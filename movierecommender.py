@@ -13,99 +13,80 @@ st.set_page_config(page_title="Mood-Based Movie Recommender", layout="wide")
 
 # Custom CSS
 st.markdown("""
-<style>
-/* Popcorn background for entire app with faded overlay */
-.stApp {
-    background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    position: relative;
-}
-.stApp::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-color: rgba(255,255,255,0.3); /* fade effect */
-    z-index: 0;
-}
+    <style>
+        /* Popcorn background for entire app */
+        .stApp {
+            background-image: url('https://wallpapercave.com/wp/wp1896112.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
 
-/* Make sure content stays above overlay */
-.main, .block-container, div[data-testid="stVerticalBlock"] {
-    position: relative;
-    z-index: 1;
-}
+        /* Global text style */
+        html, body, [class*="st-"], p, span, div {
+            color: black !important;
+            font-weight: bold !important;
+            font-size: 1.05rem !important;
+        }
 
-/* Global text style */
-html, body, [class*="st-"], p, span, div {
-    color: black !important;
-    font-weight: bold !important;
-    font-size: 1.05rem !important;
-}
+        /* White background style for title, input, and primary button */
+        .page-title, .description-text, input, .stButton>button {
+            background-color: white !important;
+            color: black !important;
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none !important;
+        }
 
-/* White background style for title, input, and primary button */
-.page-title, .description-text, input, .stButton>button {
-    background-color: white !important;
-    color: black !important;
-    padding: 6px 12px;
-    border-radius: 5px;
-    border: none !important;
-}
+        /* Center the title */
+        .page-title {
+            font-size: 1.8rem !important;
+            text-align: center;
+            margin-bottom: 20px;
+            width: fit-content;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* Center the title */
-.page-title {
-    font-size: 1.8rem !important;
-    text-align: center;
-    margin-bottom: 20px;
-    width: fit-content;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
+        /* "Why" white box */
+        .movie-why {
+            background-color: white !important;
+            color: black !important;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-weight: bold !important;
+            text-align: center;
+            display: inline-block;
+        }
 
-/* "Why" white box */
-.movie-why {
-    background-color: white !important;
-    color: black !important;
-    padding: 8px 12px;
-    border-radius: 6px;
-    margin-top: 8px;
-    font-weight: bold !important;
-    text-align: center;
-    display: inline-block;
-}
+        /* Our custom WATCH TRAILER button (always white) */
+        .trailer-btn {
+            display: inline-block;
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #ffffff !important;
+            border-radius: 6px !important;
+            padding: 8px 14px !important;
+            text-decoration: none !important;
+            font-weight: bold !important;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .trailer-btn:hover {
+            background-color: #f5f5f5 !important;
+            color: #000000 !important;
+            border-color: #f5f5f5 !important;
+        }
 
-/* Our custom WATCH TRAILER button (always white) */
-.trailer-btn {
-    display: inline-block;
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border: 2px solid #ffffff !important;
-    border-radius: 6px !important;
-    padding: 8px 14px !important;
-    text-decoration: none !important;
-    font-weight: bold !important;
-    text-align: center;
-    margin-top: 8px;
-}
-.trailer-btn:hover {
-    background-color: #f5f5f5 !important;
-    color: #000000 !important;
-    border-color: #f5f5f5 !important;
-}
-
-/* 🔴 Bright red label for the input */
-div[data-testid="stTextInput"] label,
-div[data-testid="stTextInput"] label p {
-    color: #ff1a1a !important;
-    font-weight: 800 !important;
-}
-
-/* Optional: placeholder color */
-div[data-testid="stTextInput"] input::placeholder {
-    color: #444;
-}
-</style>
+        /*  Bright red label for the input */
+        div[data-testid="stTextInput"] label,
+        div[data-testid="stTextInput"] label p {
+            color: #ff1a1a !important;
+            font-weight: 800 !important;
+        }
+    </style>
 """, unsafe_allow_html=True)
 
 # Page title & description
@@ -257,6 +238,7 @@ if st.button("Get Movie Recommendations") and mood:
         except Exception as e:
             st.error(f"Something went wrong: {e}")
             st.exception(e)
+
 
 
 
