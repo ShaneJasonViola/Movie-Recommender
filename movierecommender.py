@@ -79,13 +79,17 @@ st.markdown("""
             color: #000000 !important;
             border-color: #f5f5f5 !important;
         }
-
-        /*  Bright red label for the input */
-        div[data-testid="stTextInput"] label,
-        div[data-testid="stTextInput"] label p {
+            /*  Bright red label for the input with black padding */
+            div[data-testid="stTextInput"] label,
+            div[data-testid="stTextInput"] label p {
             color: #ff1a1a !important;
             font-weight: 800 !important;
+            background-color: black !important;
+            padding: 4px 8px !important;
+            border-radius: 4px !important;
         }
+
+        
     </style>
 """, unsafe_allow_html=True)
 
