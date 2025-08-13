@@ -71,7 +71,7 @@ mood-based-movie-recommender/
 
 ---
 
-## How to Deploy (Optional)
+## How to Deploy 
 If you want to put it online, Streamlit Cloud makes it super easy:
 1. Put your code on GitHub.
 2. Go to [share.streamlit.io](https://share.streamlit.io/).
